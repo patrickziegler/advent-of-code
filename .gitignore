@@ -2,3 +2,5 @@ build*/
 .cache/
 .qtcreator/
 *.user*
+day*_input*
+day*_task.txt

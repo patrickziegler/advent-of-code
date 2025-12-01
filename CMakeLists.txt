@@ -22,3 +22,5 @@ target_link_libraries(${TARGET_NAME}
 gtest_discover_tests(${TARGET_NAME})
 
 enable_testing()
+
+configure_file("${CMAKE_SOURCE_DIR}/day1_input_rotations.txt" "${CMAKE_BINARY_DIR}/day1_input_rotations.txt" COPYONLY)
