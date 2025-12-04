@@ -2,6 +2,10 @@
 
 #include <gtest/gtest.h>
 
+inline auto check_neighbor(const char& c) {
+    return c == '@' || c == 'x';
+}
+
 class FloorPlan {
 public:
     FloorPlan(std::istream& input) {
@@ -11,7 +15,7 @@ public:
         }
     }
     auto countAccessiblePaperRolls() {
-        size_t n_access = 0;
+        size_t n_accessible = 0;
         size_t n_neigh;
         for (int i=0; i < m_floorPlan.size(); ++i) {
             for (int j=0; j < m_floorPlan[i].size(); ++j) {
@@ -20,50 +24,42 @@ public:
                     // prev row
                     if (j - 1 >= 0) {
                         // left neigh
-                        if (m_floorPlan[i-1][j-1] == '@') { ++n_neigh; }
-                        if (m_floorPlan[i-1][j-1] == 'x') { ++n_neigh; }
+                        if (check_neighbor(m_floorPlan[i-1][j-1])) { ++n_neigh; }
                     }
-                    if (j + 1 <= m_floorPlan[i].size()) {
+                    if (j + 1 < m_floorPlan[i].size()) {
                         // right neigh
-                        if (m_floorPlan[i-1][j+1] == '@') { ++n_neigh; }
-                        if (m_floorPlan[i-1][j+1] == 'x') { ++n_neigh; }
+                        if (check_neighbor(m_floorPlan[i-1][j+1])) { ++n_neigh; }
                     }
-                    if (m_floorPlan[i-1][j] == '@') { ++n_neigh; }
-                    if (m_floorPlan[i-1][j] == 'x') { ++n_neigh; }
+                    if (check_neighbor(m_floorPlan[i-1][j])) { ++n_neigh; }
                 }
                 if (i + 1 < m_floorPlan.size()) {
                     // next row
                     if (j - 1 >= 0) {
                         // left neigh
-                        if (m_floorPlan[i+1][j-1] == '@') { ++n_neigh; }
-                        if (m_floorPlan[i+1][j-1] == 'x') { ++n_neigh; }
+                        if (check_neighbor(m_floorPlan[i+1][j-1])) { ++n_neigh; }
                     }
-                    if (j + 1 <= m_floorPlan[i].size()) {
+                    if (j + 1 < m_floorPlan[i].size()) {
                         // right neigh
-                        if (m_floorPlan[i+1][j+1] == '@') { ++n_neigh; }
-                        if (m_floorPlan[i+1][j+1] == 'x') { ++n_neigh; }
+                        if (check_neighbor(m_floorPlan[i+1][j+1])) { ++n_neigh; }
                     }
-                    if (m_floorPlan[i+1][j] == '@') { ++n_neigh; }
-                    if (m_floorPlan[i+1][j] == 'x') { ++n_neigh; }
+                    if (check_neighbor(m_floorPlan[i+1][j])) { ++n_neigh; }
                 }
                 // current row
                 if (j - 1 >= 0) {
                     // left neigh
-                    if (m_floorPlan[i][j-1] == '@') { ++n_neigh; }
-                    if (m_floorPlan[i][j-1] == 'x') { ++n_neigh; }
+                    if (check_neighbor(m_floorPlan[i][j-1])) { ++n_neigh; }
                 }
-                if (j + 1 <= m_floorPlan[i].size()) {
+                if (j + 1 < m_floorPlan[i].size()) {
                     // right neigh
-                    if (m_floorPlan[i][j+1] == '@') { ++n_neigh; }
-                    if (m_floorPlan[i][j+1] == 'x') { ++n_neigh; }
+                    if (check_neighbor(m_floorPlan[i][j+1])) { ++n_neigh; }
                 }
                 if (m_floorPlan[i][j] == '@' && n_neigh < 4) {
-                    m_floorPlan[i][j] = 'x';
-                    ++n_access;
+                    m_floorPlan[i][j] = 'x'; // mark paper roll as removable
+                    ++n_accessible;
                 }
             }
         }
-        return n_access;
+        return n_accessible;
     }
     void removeAccessiblePaperRolls() {
         for (int i=0; i < m_floorPlan.size(); ++i) {
