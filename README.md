@@ -1,3 +1,3 @@
-## :christmas_tree: aoc25
+## :christmas_tree: advent-of-code
 
-This repository contains solutions for [Advent of Code 2025](https://adventofcode.com/2025)
+This repository contains solutions for [Advent of Code](https://adventofcode.com/)
